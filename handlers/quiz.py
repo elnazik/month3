@@ -3,7 +3,6 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot
 
 
-
 async def quiz_1(message: types.Message):
     keyboard = InlineKeyboardMarkup(resize_keyboard=True)
 
@@ -11,69 +10,60 @@ async def quiz_1(message: types.Message):
 
     keyboard.add(button)
 
-    question = 'where ara u from ?'
+    question = 'Where are you from ?'
 
-    answer = ['Bishkek', 'Moskow', 'Tokyo', 'Tashkent']
+    options = ['Bishkek', 'Moscow', 'Tokyo', 'Tashkent']
 
     await bot.send_poll(
-        chat_id=message.chat.id,
+        chat_id=message.from_user.id,
         question=question,
-        options=answer,
+        options=options,
         is_anonymous=False,
         type='quiz',
         correct_option_id=0,
-        explanation='саткын!!!',
+        explanation='Саткын!!!!',
         open_period=60,
         reply_markup=keyboard
     )
+
 
 async def quiz_2(call: types.CallbackQuery):
     keyboard = InlineKeyboardMarkup(resize_keyboard=True)
 
-    button = InlineKeyboardButton('Далее', callback_data='quiz_3')
+    button = InlineKeyboardButton('Следующее', callback_data='quiz_2')
 
     keyboard.add(button)
 
-    question = 'Выбери страну ?'
+    question = 'Выбери страну'
 
-    answer = ['Казахстан', 'Россия', 'Кыргызстан', 'Китай']
+    options = ['Kyrgystan', 'Russia', 'Uzbekistan', 'China', 'Japan', 'USE']
 
     await bot.send_poll(
         chat_id=call.from_user.id,
         question=question,
-        options=answer,
+        options=options,
         is_anonymous=True,
         type='quiz',
         correct_option_id=0,
-        explanation='не родной!!!',
+        explanation='Эмигрант',
         open_period=60,
         reply_markup=keyboard
     )
 
+
 async def quiz_3(call: types.CallbackQuery):
-        keyboard = InlineKeyboardMarkup(resize_keyboard=True)
-
-        button = InlineKeyboardButton('завершить викторину', callback_data='end quiz')
-
-        keyboard.add(button)
-
-        question = 'какую форму имеет выше нарисованный предмет ?'
-
-        answer = ['круг', 'квадрат', 'овал', 'треугольник']
-
-        await bot.send_poll(
-            chat_id=call.from_user.id,
-            question=question,
-            options=answer,
-            is_anonymous=True,
-            type='quiz',
-            correct_option_id=0,
-            explanation='не правильно!!!',
-            open_period=60,
-            reply_markup=keyboard
-        )
+    await bot.send_poll(
+        chat_id=call.from_user.id,
+        question='ur country?',
+        options=['Kr', 'Ru', 'kz'  ],
+        is_anonymous=True,
+        type='quiz',
+        correct_option_id=0,
+        explanation='Эмигрант',
+        open_period=60,
+    )
 
 def register_handler_quiz(dp: Dispatcher):
-        dp.register_message_handler(quiz_1, commands=['quiz'])
-        dp.register_callback_query_handler(quiz_2, text='quiz_2')
-        dp.register_callback_query_handler(quiz_3, text='quiz_3')
+    dp.register_message_handler(quiz_1, commands=['quiz'])
+    dp.register_callback_query_handler(quiz_2, text='quiz_2')
+    dp.register_callback_query_handler(quiz_3, text='quiz_3')
