@@ -1,7 +1,7 @@
 from aiogram import executor, types
 from config import dp, admin, bot
 import logging
-from handlers import commands, quiz,game, store, echo
+from handlers import commands, quiz,game, store, echo, webapp, admin_group
 
 
 
@@ -10,6 +10,9 @@ quiz.register_handler_quiz(dp)
 game.register_game(dp)
 store.register_store(dp)
 echo.register_echo(dp)
+
+webapp.register_webapp_handlers(dp)
+admin_group.register_admin_handlers(dp)
 
 async def on_startup(_):
     await bot.send_message(
